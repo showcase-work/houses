@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset=utf-8>
+        <title>My first three.js app</title>
+        <link rel="stylesheet" type="text/css" href="assets/css/main.css">
+    </head>
+    <body>
+        <!-- <div class="houses">
+            
+        </div> -->
+        <div id="info">Description</div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.js"></script>
+        <script src="three/build/three.js"></script>
+        <script type="text/javascript" src="assets/js/OrbitControls.js"></script>
+        <script>
+
+            var camera;
+            var scene;
+            var renderer;
+            var spotLight;
+            var controls;
+
+            init();
+            run();
+
+            function init(){
+              scene = new THREE.Scene();
+
+              camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000);
+              camera.position.set(-0,-10,70);
+
+
+              var light = new THREE.DirectionalLight(0xaaaae5, 2);
+              light.position.set(15, 16, -50);
+              scene.add(light);
+
+              var light2 = new THREE.DirectionalLight(0xaaaae5, 2);
+              light2.position.set(-50,-10,50);
+              scene.add(light2);
+
+                // Create the WebGL Renderer
+              renderer = new THREE.WebGLRenderer( { antialias:true} );
+              renderer.setSize( window.innerWidth, window.innerHeight );
+
+              // Add the orbit controls to the camera
+              controls = new THREE.OrbitControls(camera, renderer.domElement);
+              // Set the point at which we will orbit around
+              controls.target = new THREE.Vector3(0, 0, 0);   
+
+              document.body.appendChild( renderer.domElement );
+
+              // Add a resize event listener
+              window.addEventListener( 'resize', onWindowResize, false );
+
+              loadSkyBox();
+
+              addSceneElements();
+
+              addHouses();
+            }
+            
+
+            function loadSkyBox() {
+                 
+                    // Load the skybox images and create list of materials
+                    var materials = [
+                        createMaterial( 'assets/images2/right.png' ), // right
+                        createMaterial( 'assets/images2/left.png' ), // left
+                        createMaterial( 'assets/images2/sky.png' ), // top
+                        createMaterial( 'assets/images2/ground.png' ), // bottom
+                        createMaterial( 'assets/images2/back.png' ), // back
+                        createMaterial( 'assets/images2/front.png' )  // front
+                    ];
+                     
+                    // Create a large cube
+                    var mesh = new THREE.Mesh( new THREE.BoxGeometry( 100, 100, 100, 1, 1, 1 ), new THREE.MeshFaceMaterial( materials ) );
+                     
+                    // Set the x scale to be -1, this will turn the cube inside out
+                    mesh.scale.set(-1,1,1);
+                    scene.add( mesh );  
+            }
+
+            function addSceneElements() {
+              
+            
+              // Create the ground using a Plane
+              // Load the texture for the ground
+              var groundTexture = THREE.ImageUtils.loadTexture('assets/images2/wet-sand.jpg');
+              groundTexture.wrapS = THREE.RepeatWrapping;
+              groundTexture.wrapT = THREE.RepeatWrapping;
+              
+              // Load bump map for the ground
+              var groundBump = THREE.ImageUtils.loadTexture('assets/images2/wet-sand-normal.jpg');
+              groundBump.wrapS = THREE.RepeatWrapping;
+              groundBump.wrapT = THREE.RepeatWrapping;
+              
+              // Create the material
+              var groundMat = new THREE.MeshPhongMaterial( { map: groundTexture, bumpMap: groundBump, color: 0x9eefb7 } );
+              groundMat.map.repeat.set(5,5);
+              
+              // Create the mesh
+              var groundMesh = new THREE.Mesh( new THREE.PlaneGeometry(100, 100,2,2), groundMat);
+              groundMesh.rotation.set(-90 * (3.14/180), 0, 0, 'XYZ');
+              groundMesh.position.set(0,-25,0);
+              
+              scene.add(groundMesh);
+            }
+
+            function addHouses(){
+              var loader = new THREE.JSONLoader();
+              loader.load("three/house2.json",function (geometry, materials) {
+
+                var material = new THREE.MeshFaceMaterial(materials);
+                var house = new THREE.Mesh( geometry, material);
+                house.scale.set( 2, 2, 2);
+                house.name = 'Car';
+                house.position.set(0,-25,25);
+                
+                scene.add( house );
+              }, onProgress, onError);
+            }
+
+
+
+            function createMaterial( path ) {
+                var texture = THREE.ImageUtils.loadTexture(path);
+                var material = new THREE.MeshBasicMaterial( { map: texture, overdraw: 0.5 } );
+                 return material; 
+            }
+
+
+            function onProgress(progress) {
+              // Use this to track loading progress
+            }
+
+            function onError(error) {
+              // Called when errors occur during loading
+            }
+
+
+            function run() {
+              // Update the orbit controls
+              if(controls != null) {
+                controls.update();
+              }
+              // Render the scene
+              renderer.render( scene, camera );
+              
+              // Repeat
+              requestAnimationFrame( run );                
+            }
+
+            function onWindowResize() {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize( window.innerWidth, window.innerHeight );
+            }
+        </script>
+    </body>
+</html>
