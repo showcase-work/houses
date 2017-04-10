@@ -28,7 +28,7 @@
             <ul>
                 <li class="active"><a href="/">Home</a></li>
                 <li><a href="">¿Cómo funciona?</a></li>
-                <li><a href="">Proyectos</a></li>
+                <li><a href="projects.html">Proyectos</a></li>
                 <li><a href="">Casos de éxito</a></li>
                 <li><a href="">Contacto</a></li>
                 <li><input type="text" name="search" placeholder="Buscar"></li>
@@ -273,7 +273,7 @@
                   <div class="center">
                     <input type="checkbox" name="" value=""><span class="formated">He leido el aviso de privacidad, términos y condiciones</span>
                     <br />
-                    <button class="big" style="background-color: #78be20; border:none; border-radius: 10px; color:white; padding:10px 20px; cursor:pointer;">DONAR</button>
+                    <button class="big" style="background-color: #78be20; border:none; border-radius: 10px; color:white; padding:10px 20px; cursor:pointer;" data-uk-modal="{target:'#donate'}">DONAR</button>
                   </div>
                 </div>
             </div>
@@ -549,7 +549,7 @@
 
             renderer = new THREE.WebGLRenderer( { antialias: true } );
             renderer.setPixelRatio( window.devicePixelRatio );
-            renderer.setSize( window.innerWidth, 500 );
+            renderer.setSize( window.innerWidth, 400 );
             renderer.setClearColor( scene.fog.color );
 
             container.appendChild( renderer.domElement );

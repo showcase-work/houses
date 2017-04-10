@@ -161,7 +161,7 @@ h2.style1{
 #canvas {
     background-color: #000;
     width: 100%;
-    height: 500px;
+    height: 400px;
     padding: 0px;
     top: 100px;
     left: 100px;
@@ -188,6 +188,7 @@ p.style1{
     padding:0px 20px;
     margin-bottom: 20px;
     max-width: 250px;
+    min-width: 225px;
 }
 
 .outer-card .inner-card{
@@ -660,4 +661,63 @@ select:focus,
 textarea:focus,
 button:focus {
     outline: none;
+}
+
+
+.menu input{
+
+    margin: 10px 30px;
+    padding: 6px;
+    border-radius: 7px;
+    border: 1px solid #b3b2b2;
+
+}
+
+@media only screen and (max-width: 715px) {
+    .outer-card {
+        width:100%;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+
+    .upper-logos img{
+        max-width: 40%; 
+    }
+
+    .facts{
+        display: block;
+    }
+
+    .fact{
+        width: 100%;
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+
+    .flex-container{
+        display: block;
+    }
+
+    .fact.social-media{
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .fact.social-media p{
+        margin-top: 10px !important;
+        margin-bottom: 10px !important;
+    }
+
+    .banner{
+        display: block;
+    }
+
+    .banner .logo-cont{
+        width: 100%;
+    }
+
+    .banner .right-content{
+        width:100%;
+    }
 }
